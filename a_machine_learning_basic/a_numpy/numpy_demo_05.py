@@ -1,30 +1,22 @@
 """
-    自定义复合类型
+    多维数组切片操作
+    切片不降低维度, 索引会降低一个维度.
 """
 import numpy as np
-import warnings  # 警告
 
-warnings.filterwarnings('ignore')
+ary = np.arange(1, 28).reshape(9, 3)
 
-data = [
-    ('zs', [90, 80, 85], 18),
-    ('ls', [92, 81, 83], 19),
-    ('ww', [95, 85, 95], 20)
-]
+# 前两行前两列
+print(ary[:2, :2])
 
-# 第一种设置dtype类型
-ary = np.array(data, dtype='U2,3int32,int32')
-print(ary)
-print(ary.shape)
+# 最后一行的后两列
+print(ary[-1, -2:])  # 一维数组
+print(ary[-1:, -2:])  # 二维
 
-# 求第三列平均值年龄, f=field
-print(ary['f2'].mean())
-# 求每一个人的平均分
-print(ary['f1'].mean(axis=1))
-# 求每科平均分
-print(ary['f1'].mean(axis=0))
-
-# 第二种设置dtype的方式
-ary2 = np.array(data, dtype={'names': ['name', 'score', 'age'],
-                             'formats': ['U2', '3int32', 'int32']})
-print(ary2['age'])
+# 拆分ary, x是二维数据, y是一维数据
+# 所有行，不要最后一列(二维)
+x = ary[:, :-1]
+# 所有行，只要最后一列(一维)
+y = ary[:, -1]
+print(x)
+print(y)
